@@ -25,12 +25,12 @@ function createStore (myStore)
 
 
 async function getAll(){
-    const response = await pool.query('SELECT * FROM store.store ORDER BY store_id ASC');
+    const response = await pool.query('SELECT * FROM store.store where store_state=$1 ORDER BY store_id ASC',['A']);
     return response.rows;
 }
 
 async function getStoresByNit(nit){
-    const response = await pool.query('SELECT * FROM store.store where store_id = $1 ',[nit]);
+    const response = await pool.query('SELECT * FROM store.store where store_id = $1 and store_state=$2',[nit,'A']);
     return response.rows;
 }
 
