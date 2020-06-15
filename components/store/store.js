@@ -30,13 +30,50 @@ async function getAll(){
 }
 
 async function getStoresByNit(nit){
-    const response = await pool.query('SELECT * FROM store.store where store_id = $1 and store_state=$2',[nit,'A']);
+    const response = await pool.query('SELECT * FROM store.store where nit = $1 and store_state=$2',[nit,'A']);
     return response.rows;
 }
+
+function updateStore (myStore) 
+{
+    return new Promise((resolve, reject) => {
+        pool.query('update store.store set store_name=$1, store_type_id=$2, update_date=$3, update_user=$4 where nit=$5',
+        [ myStore.storeName, 
+          myStore.storeTypeId,
+          myStore.updateDate,
+          myStore.updateUser,
+          myStore.nit],(error, results) => {
+        if(error) {
+          return reject(new Error('An error occured save u: ' + error));
+        }
+        return resolve('Store updated!')
+        
+      });
+
+    });
+  }
+
+  function deleteStore (nit) 
+{
+    return new Promise((resolve, reject) => {
+        pool.query('update store.store set store_state=$1 where nit=$2',
+        [ 'I',
+          nit],(error, results) => {
+        if(error) {
+          return reject(new Error('An error occured save u: ' + error));
+        }
+        return resolve('Store deleted!')
+        
+      });
+
+    });
+  }
 
 
 module.exports = {
    createStore,
    getAll,
-   getStoresByNit
+   getStoresByNit,
+   updateStore,
+   deleteStore,
 };

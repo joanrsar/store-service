@@ -46,9 +46,46 @@ function getStoresByNit(nit) {
     })
 }
 
+function  updateStore(nit,storeName,storeTypeId, updateUser){
+    console.log('nit '+nit);
+    console.log('name '+storeName);
+    console.log('storeTypeId '+storeTypeId);
+    console.log('updateUser '+updateUser);
+
+    if(!nit){
+        return Promise.reject('Invalid nit');
+    }
+
+    if(!storeName){
+        return Promise.reject('Invalid name');
+    }
+
+    if(!storeTypeId){
+        return Promise.reject('Invalid type ');
+    }
+
+    if(!updateUser){
+        return Promise.reject('Invalid updateUser ');
+    }
+    const  updateDate = new Date();
+    const myStore = {
+        nit,
+        storeName,
+        storeTypeId,
+        updateUser,
+        updateDate,
+    };
+   
+    return  store.updateStore(myStore);
+}
+function deleteStore(nit) {
+    return  store.deleteStore(nit);
+}
+
 module.exports = {
     addStore,
     getAll,
     getStoresByNit,
-
+    updateStore,
+    deleteStore,
 }
